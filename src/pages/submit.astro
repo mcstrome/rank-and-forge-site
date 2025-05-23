@@ -1,0 +1,39 @@
+---
+import { createClient } from '@supabase/supabase-js';
+
+// Supabase client is now available through the Astro integration
+const supabase = createClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
+
+export async function POST({ request }) {
+  try {
+    const { name, email, phone, message } = await request.json();
+
+    const { data, error } = await supabase
+      .from('leads')
+      .insert({
+        name,
+        email,
+        phone,
+        message,
+        submitted_at: new Date().toISOString()
+      });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw error;
+    }
+
+    console.log('Successfully inserted data:', data);
+    return new Response(JSON.stringify({ success: true }));
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    return new Response(JSON.stringify({ 
+      success: false, 
+      error: error.message,
+      details: error.details || error.message
+    }), {
+      status: 500
+    });
+  }
+}
+---
