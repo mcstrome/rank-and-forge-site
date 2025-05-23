@@ -1,5 +1,6 @@
 ---
 const { title = "Rank & Forge" } = Astro.props;
+import '../styles/tailwind.css';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +12,6 @@ const { title = "Rank & Forge" } = Astro.props;
     <meta property="og:title" content="Rank & Forge - Commercial SEO Experts" />
     <meta property="og:description" content="We help service businesses get found and booked." />
     <meta property="og:image" content="/og-image.png" />
-    <link rel="stylesheet" href="/tailwind.css" />
   </head>
   <body class="bg-gray-50 text-gray-900 font-sans">
     <slot />
