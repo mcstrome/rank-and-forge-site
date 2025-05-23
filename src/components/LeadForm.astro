@@ -1,0 +1,10 @@
+---
+const endpoint = '/api/submit';
+---
+<form action={endpoint} method="POST" class="space-y-4">
+  <input type="text" name="name" required placeholder="Your name" class="input" />
+  <input type="email" name="email" required placeholder="Your email" class="input" />
+  <input type="tel" name="phone" placeholder="Your phone" class="input" />
+  <textarea name="message" placeholder="Tell us about your project" class="input"></textarea>
+  <button type="submit" class="btn">Get a Free Quote</button>
+</form>
