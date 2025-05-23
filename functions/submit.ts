@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
@@ -6,8 +5,9 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!;
 const NOTIFICATION_EMAIL = Deno.env.get("NOTIFICATION_EMAIL")!;
 
-serve(async (req) => {
+export async function onRequest(context: any) {
   try {
+    const req = context.request;
     const { name, email, phone, message } = await req.json();
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -34,4 +34,4 @@ serve(async (req) => {
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
-});
+}
