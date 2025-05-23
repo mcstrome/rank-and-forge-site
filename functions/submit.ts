@@ -1,12 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!;
-const NOTIFICATION_EMAIL = Deno.env.get("NOTIFICATION_EMAIL")!;
-
-export async function onRequest(context: any) {
+export async function onRequest(context: { 
+  request: Request, 
+  env: { 
+    SUPABASE_URL: string, 
+    SUPABASE_ANON_KEY: string, 
+    RESEND_API_KEY: string, 
+    NOTIFICATION_EMAIL: string 
+  } 
+}) {
   try {
+    const SUPABASE_URL = context.env.SUPABASE_URL;
+    const SUPABASE_ANON_KEY = context.env.SUPABASE_ANON_KEY;
+    const RESEND_API_KEY = context.env.RESEND_API_KEY;
+    const NOTIFICATION_EMAIL = context.env.NOTIFICATION_EMAIL;
+    
     const req = context.request;
     const { name, email, phone, message } = await req.json();
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
