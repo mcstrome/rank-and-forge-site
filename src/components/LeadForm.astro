@@ -1,10 +1,27 @@
 ---
-const endpoint = '/api/submit';
 ---
-<form action={endpoint} method="POST" class="space-y-4">
+
+<form class="space-y-4" on:submit={handleSubmit}>
   <input type="text" name="name" required placeholder="Your name" class="input" />
   <input type="email" name="email" required placeholder="Your email" class="input" />
   <input type="tel" name="phone" placeholder="Your phone" class="input" />
   <textarea name="message" placeholder="Tell us about your project" class="input"></textarea>
   <button type="submit" class="btn">Get a Free Quote</button>
 </form>
+
+<script>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const json = Object.fromEntries(formData.entries());
+
+    const res = await fetch('/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(json)
+    });
+
+    const result = await res.json();
+    alert(result.success ? "Submission successful!" : "Something went wrong.");
+  }
+</script>
